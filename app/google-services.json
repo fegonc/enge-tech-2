@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "835443700889",
+    "project_id": "engetech-32bc3",
+    "storage_bucket": "engetech-32bc3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835443700889:android:56aa1f02ae314a97b5b408",
+        "android_client_info": {
+          "package_name": "com.example.engetech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835443700889-dssnbf2g7b4n07f58ldgbcdjkbr43s21.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnc2VHKcJFROjrG9P2MJGTmI34XUFWzvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835443700889-dssnbf2g7b4n07f58ldgbcdjkbr43s21.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
