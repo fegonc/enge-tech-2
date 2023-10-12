@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         tools:context=".PessoaFisica"
         android:orientation="vertical"
-        android:background="#fff">
+        android:background="#90EE90">
 
 
         <TextView

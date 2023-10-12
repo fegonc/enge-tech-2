@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fechamento"
+    android:background="#90EE90"
+    >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:text="Selecionar tipo de fechamento"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#264653"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+    <CheckBox
+        android:id="@+id/check_ceramica"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ceramica"
+        android:layout_marginTop="150dp"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
+        />
+
+    <CheckBox
+        android:id="@+id/check_tijolos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tijolos"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
+        />
+
+    <CheckBox
+        android:id="@+id/check_drywall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Drywall"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
+        />
+
+    <CheckBox
+        android:id="@+id/check_madeira"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Madeira"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_marginBottom="150dp"
+        />
+
+    <Button
+        android:id="@+id/btn_salvar_fechamento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/black"
+        android:padding="16dp"
+        android:text="Salvar" />
+
+</LinearLayout>

@@ -16,6 +16,7 @@
         tools:context=".Photo"
         android:orientation="vertical"
         android:padding="15dp"
+        android:background="#90EE90"
         >
 
         <ImageView
