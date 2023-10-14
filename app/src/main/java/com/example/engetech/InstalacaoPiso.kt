@@ -3,10 +3,15 @@ package com.example.engetech
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
+import com.google.firebase.firestore.FirebaseFirestore
 
 class InstalacaoPiso : AppCompatActivity() {
 
+    private var itemSelected: Any? = null
+    private var itemSelectedPiso: Any? = null
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,18 +32,34 @@ class InstalacaoPiso : AppCompatActivity() {
 
         autoComplete.onItemClickListener = AdapterView.OnItemClickListener{
             adapterView, view, i, l ->
-            val itemSelected = adapterView.getItemAtPosition(i)
+            itemSelected = adapterView.getItemAtPosition(i)
             //Toast.makeText(this,"Item: $itemSelected",Toast.LENGTH_LONG).show()
-
         }
+
         autoCompletePiso.onItemClickListener = AdapterView.OnItemClickListener{
                 adapterView, view, i, l ->
-            val itemSelectedPiso = adapterView.getItemAtPosition(i)
-            //Toast.makeText(this,"Item: $itemSelectedPiso",Toast.LENGTH_LONG).show()
+                itemSelectedPiso = adapterView.getItemAtPosition(i)
+                //Toast.makeText(this,"Item: $itemSelectedPiso",Toast.LENGTH_LONG).show()
 
         }
 
         buttonSalvar.setOnClickListener{
+            itemSelected.toString()
+            itemSelectedPiso.toString()
+
+            val usuarioMap = hashMapOf(
+                "instalacao" to itemSelected,
+                "piso" to itemSelectedPiso
+            )
+
+            db.collection("Insta_Piso").document("IP ")
+                .set(usuarioMap).addOnCompleteListener {
+                    Toast.makeText(this, "Sucesso ao salvar os dados", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener{
+                    Log.d("db", "Erro ao salvar os dados")
+                }
+
+
             telaMenu()
         }
 

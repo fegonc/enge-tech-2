@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.Toast
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -38,7 +39,7 @@ class Fechamento : AppCompatActivity() {
 
             db.collection("Fechamento").document("FECHA ")
                 .set(usuarioMap).addOnCompleteListener {
-                    Log.d("db", "Sucesso ao salvar os dados")
+                    Toast.makeText(this, "Sucesso ao salvar os dados", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener{
                     Log.d("db", "Erro ao salvar os dados")
                 }

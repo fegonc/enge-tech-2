@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import android.widget.CheckBox
+import android.widget.Toast
 
 
 class PessoaFisica : AppCompatActivity() {
@@ -84,7 +85,7 @@ class PessoaFisica : AppCompatActivity() {
 
             db.collection("Cadastro").document("PF1 ")
                 .set(usuarioMap).addOnCompleteListener {
-                    Log.d("db", "Sucesso ao salvar os dados")
+                    Toast.makeText(this, "Sucesso ao salvar os dados", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener{
                     Log.d("db", "Erro ao salvar os dados")
                 }

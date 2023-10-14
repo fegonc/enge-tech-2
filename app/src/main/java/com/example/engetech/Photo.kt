@@ -1,79 +1,105 @@
 package com.example.engetech
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.engetech.databinding.ActivityPhoto2Binding
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 @Suppress("DEPRECATION")
 class Photo : AppCompatActivity() {
 
-    private lateinit var button: Button
-    private lateinit var imageView: ImageView
-
-    private lateinit var button2: Button
-    private lateinit var imageView2: ImageView
-
-    var verificaCondicao: Boolean = false
-
-    companion object{
-        val IMAGE_REQUEST_CODE = 100
-    }
+    private lateinit var binding : ActivityPhoto2Binding
+    private lateinit var storageRef : StorageReference
+    private lateinit var firebaseFirestore: FirebaseFirestore
+    private var imageUri1: Uri? = null
+    private var imageUri2: Uri? = null
+    private lateinit var imgViewFoto1: ImageView
+    private lateinit var imgViewFoto2: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_photo2)
 
-        button = findViewById(R.id.btn_foto)
-        imageView = findViewById(R.id.img_view_foto1)
+        binding = ActivityPhoto2Binding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        button2 = findViewById(R.id.btn_foto2)
-        imageView2 = findViewById(R.id.img_view_foto2)
+        initVars()
+        registerClickEvents()
+    }
 
-        button.setOnClickListener{
-            pegarImagemGaleria()
-        }
-        button2.setOnClickListener{
-            pegarImagemGaleria2()
-        }
-
-        val buttonSalvar : Button = findViewById(R.id.btn_salvar_photo)
-        buttonSalvar.setOnClickListener{
-            tela_menu_principal()
+    private fun registerClickEvents() {
+        binding.btnSalvarPhoto.setOnClickListener {
+            uploadImage(imageUri1)
+            uploadImage(imageUri2)
+            startActivity(Intent(this, MenuPrincipal::class.java))
         }
 
-    }
-
-
-    private fun pegarImagemGaleria(){
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_REQUEST_CODE)
-        verificaCondicao = true
-    }
-    private fun pegarImagemGaleria2(){
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_REQUEST_CODE)
-        verificaCondicao = false
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && verificaCondicao){
-            imageView.setImageURI(data?.data)
+        binding.imgViewFoto1.setOnClickListener {
+            resultLauncher.launch("image/*")
         }
-        else
-            imageView2.setImageURI(data?.data)
 
+        // Assuming you have another ImageView for the second image
+        binding.imgViewFoto2.setOnClickListener {
+            resultLauncher2.launch("image/*")
+        }
     }
 
-    //Funcao pra chamar tela de menu principal
-    private fun tela_menu_principal(){
-        val menu_principal = Intent(this,MenuPrincipal::class.java)
-        startActivity(menu_principal)
+    private val resultLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()) {
+        imageUri1 = it
+        imgViewFoto1.setImageURI(it)
     }
 
+    // Create a second launcher for the second image
+    private val resultLauncher2 = registerForActivityResult(
+        ActivityResultContracts.GetContent()) {
+        imageUri2 = it
+        imgViewFoto2.setImageURI(it)
+    }
 
+    private fun initVars() {
+        storageRef = FirebaseStorage.getInstance().reference.child("Images")
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        imgViewFoto1 = binding.imgViewFoto1
+        imgViewFoto2 = binding.imgViewFoto2
+    }
+
+    private fun uploadImage(imageUri: Uri?) {
+        binding.progressBar.visibility = View.VISIBLE
+        if (imageUri != null) {
+            val storageRef = storageRef.child(System.currentTimeMillis().toString())
+            storageRef.putFile(imageUri).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    storageRef.downloadUrl.addOnSuccessListener { uri ->
+                        val map = HashMap<String, Any>()
+                        map["pic"] = uri.toString()
+
+                        firebaseFirestore.collection("images").add(map).addOnCompleteListener { firestoreTask ->
+                            if (firestoreTask.isSuccessful) {
+                                Toast.makeText(this, "Uploaded Successfully", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(this, firestoreTask.exception?.message, Toast.LENGTH_SHORT).show()
+                            }
+                            binding.progressBar.visibility = View.GONE
+                            imgViewFoto1.setImageResource(R.drawable.ic_launcher_foreground)
+                            imgViewFoto2.setImageResource(R.drawable.ic_launcher_foreground)
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
+                    binding.progressBar.visibility = View.GONE
+                    imgViewFoto1.setImageResource(R.drawable.ic_launcher_foreground)
+                    imgViewFoto2.setImageResource(R.drawable.ic_launcher_foreground)
+                }
+            }
+        }
+    }
 }
