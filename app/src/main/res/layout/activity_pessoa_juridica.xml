@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         tools:context=".PessoaFisica"
         android:orientation="vertical"
-        android:background="#90EE90">
+        android:background="#add8e6">
 
 
         <TextView
@@ -171,7 +171,7 @@
                 android:id="@+id/check_ed_comercial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ed.Comercial"
+                android:text="Edificio Comercial"
                 />
 
             <CheckBox

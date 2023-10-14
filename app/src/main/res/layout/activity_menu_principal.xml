@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".MenuPrincipal"
-    android:background="#90EE90"
+    android:background="#add8e6"
     >
 
     <ImageView
